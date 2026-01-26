@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Slider extends Model
+{
+    use HasFactory;
+
+    protected $table = 'slider';
+    protected $primaryKey = 'id_slider';
+
+    protected $fillable = [
+        'judul',
+        'gambar',
+        'link',
+        'urutan',
+        'status',
+    ];
+
+    protected $casts = [
+        'urutan' => 'integer',
+    ];
+
+    // Scopes
+    public function scopeAktif($query)
+    {
+        return $query->where('status', 'Aktif')->orderBy('urutan');
+    }
+}
