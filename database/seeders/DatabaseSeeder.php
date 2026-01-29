@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             KategoriBeritaSeeder::class,
             LayananSeeder::class,
             ProfilPolresSeeder::class,
+            BeritaSeeder::class,
         ]);
     }
 }
