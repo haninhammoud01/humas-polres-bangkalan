@@ -72,4 +72,21 @@ class LayananController extends Controller
 
         return redirect()->route('admin.layanan.index')->with('delete', 'Layanan dihapus.');
     }
+
+    // --- ROUTE PUBLIK ---
+
+    // Menampilkan List Semua Layanan
+    public function publicList()
+    {
+        // Urutkan berdasarkan kolom 'urutan'
+        $layanans = Layanan::orderBy('urutan', 'asc')->get();
+        return view('public.layanan-list', compact('layanans'));
+    }
+
+    // Menampilkan Detail Satu Layanan
+    public function showPublic($id)
+    {
+        $layanan = Layanan::findOrFail($id);
+        return view('public.layanan-detail', compact('layanan'));
+    }
 }

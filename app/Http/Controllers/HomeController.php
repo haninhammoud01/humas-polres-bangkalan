@@ -2,22 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
+use App\Models\Slider;
+use App\Models\Pengumuman;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    /**
+     * Display the welcome/home page
+     */
     public function index()
     {
-        // 1. Ambil Berita Terbaru (Status Published)
-        $beritaTerbaru = \App\Models\Berita::published()->latest('tanggal_publish')->take(3)->get();
+        // Ambil 3 berita terbaru yang sudah published
+        $beritas = Berita::where('status', 'Published')
+                         ->orderBy('tanggal_publish', 'desc')
+                         ->take(3)
+                         ->get();
         
-        // 2. Ambil Pengumuman (Status Aktif & Terbaru)
-        // Menggunakan scope yang sudah ada di Model
-        $pengumumanTerbaru = \App\Models\Pengumuman::aktif()->terbaru()->get();
-
-        // 3. Variabel Placeholder (sementara kosong)
-        $sliders = collect([]);
-
-        return view('public.home', compact('sliders', 'beritaTerbaru', 'pengumumanTerbaru'));
+        // Ambil slider yang aktif
+        $sliders = Slider::where('status', 'Aktif')
+                        ->orderBy('urutan', 'asc')
+                        ->get();
+        
+        // Ambil pengumuman yang aktif
+        $pengumumans = Pengumuman::where('status', 'Aktif')
+                                 ->orderBy('tanggal', 'desc')
+                                 ->take(5)
+                                 ->get();
+        
+        // Ambil layanan
+        $layanans = Layanan::orderBy('urutan', 'asc')
+                          ->take(4)
+                          ->get();
+        
+        return view('welcome', compact('beritas', 'sliders', 'pengumumans', 'layanans'));
     }
 }

@@ -20,13 +20,8 @@ class Slider extends Model
         'status',
     ];
 
-    protected $casts = [
-        'urutan' => 'integer',
-    ];
-
-    // Scopes
     public function scopeAktif($query)
     {
-        return $query->where('status', 'Aktif')->orderBy('urutan');
+        return $query->where('status', 'Aktif')->orderBy('urutan', 'asc');
     }
 }

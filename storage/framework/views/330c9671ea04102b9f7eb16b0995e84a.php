@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="{{ asset('assets/images/logo.jpeg') }}" alt="Logo" height="40">
+            <img src="<?php echo e(asset('assets/images/logo.jpeg')); ?>" alt="Logo" height="40">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
             <span class="navbar-toggler-icon"></span>
@@ -28,3 +28,4 @@
         </div>
     </div>
 </nav>
+<?php /**PATH C:\Users\LENOVO\Documents\humas-polres-bangkalan\resources\views/layouts/navbar.blade.php ENDPATH**/ ?>

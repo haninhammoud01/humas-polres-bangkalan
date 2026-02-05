@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Humas Polres Bangkalan</title>
-    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/welcome.css')); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Swiper CSS for slider -->
@@ -17,7 +17,7 @@
         
         <!-- Logo Kiri Atas -->
         <div class="logo-wrapper">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Logo Polres Bangkalan" class="hero-logo">
+            <img src="<?php echo e(asset('assets/images/logo.png')); ?>" alt="Logo Polres Bangkalan" class="hero-logo">
         </div>
 
         <!-- Menu Kanan Atas -->
@@ -28,11 +28,11 @@
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="dropdown-content" id="dropdownContent">
-                    <a href="{{ route('home') }}">Beranda</a>
-                    <a href="{{ route('profil.index') }}">Tentang Kami</a>
-                    <a href="{{ route('berita.index') }}">Informasi Publik</a>
-                    <a href="{{ route('public.pengumuman.index') }}">Pengumuman</a>
-                    <a href="{{ route('profil.index') }}">Profil</a>
+                    <a href="<?php echo e(route('home')); ?>">Beranda</a>
+                    <a href="<?php echo e(route('profil.index')); ?>">Tentang Kami</a>
+                    <a href="<?php echo e(route('berita.index')); ?>">Informasi Publik</a>
+                    <a href="<?php echo e(route('public.pengumuman.index')); ?>">Pengumuman</a>
+                    <a href="<?php echo e(route('profil.index')); ?>">Profil</a>
                 </div>
             </div>
         </div>
@@ -101,22 +101,22 @@
             <h2 class="section-title">Media Update</h2>
             
             <div class="media-grid">
-                @forelse($beritas->take(3) as $berita)
+                <?php $__empty_1 = true; $__currentLoopData = $beritas->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $berita): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div class="media-card">
                     <div class="media-image">
-                        @if($berita->gambar_utama)
-                            <img src="{{ asset('foto_berita/' . $berita->gambar_utama) }}" alt="{{ $berita->judul }}">
-                        @else
+                        <?php if($berita->gambar_utama): ?>
+                            <img src="<?php echo e(asset('foto_berita/' . $berita->gambar_utama)); ?>" alt="<?php echo e($berita->judul); ?>">
+                        <?php else: ?>
                             <div class="media-placeholder"></div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                     <div class="media-info">
-                        <h3>{{ Str::limit($berita->judul, 60) }}</h3>
-                        <p>{{ Str::limit(strip_tags($berita->ringkasan ?? $berita->konten), 100) }}</p>
-                        <a href="{{ route('berita.show', $berita->slug) }}" class="read-more">Baca Selengkapnya →</a>
+                        <h3><?php echo e(Str::limit($berita->judul, 60)); ?></h3>
+                        <p><?php echo e(Str::limit(strip_tags($berita->ringkasan ?? $berita->konten), 100)); ?></p>
+                        <a href="<?php echo e(route('berita.show', $berita->slug)); ?>" class="read-more">Baca Selengkapnya →</a>
                     </div>
                 </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                 <div class="media-card placeholder">
                     <div class="media-placeholder"></div>
                 </div>
@@ -126,11 +126,11 @@
                 <div class="media-card placeholder">
                     <div class="media-placeholder"></div>
                 </div>
-                @endforelse
+                <?php endif; ?>
             </div>
 
             <div class="text-center">
-                <a href="{{ route('berita.index') }}" class="btn-primary">Lihat Lebih Banyak</a>
+                <a href="<?php echo e(route('berita.index')); ?>" class="btn-primary">Lihat Lebih Banyak</a>
             </div>
         </div>
     </section>
@@ -143,28 +143,28 @@
             <div class="layanan-grid-2x2">
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="{{ asset('assets/icons/skck.jpg') }}" alt="SKCK" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/skck.jpg')); ?>" alt="SKCK" class="layanan-img">
                     </div>
                     <h3>SKCK</h3>
                 </a>
 
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="{{ asset('assets/icons/samsat.jpg') }}" alt="SAMSAT" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/samsat.jpg')); ?>" alt="SAMSAT" class="layanan-img">
                     </div>
                     <h3>SAMSAT</h3>
                 </a>
 
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="{{ asset('assets/icons/sim.jpg') }}" alt="SIM" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/sim.jpg')); ?>" alt="SIM" class="layanan-img">
                     </div>
                     <h3>SIM</h3>
                 </a>
 
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="{{ asset('assets/icons/Layanan110.jpg') }}" alt="Layanan 110" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/Layanan110.jpg')); ?>" alt="Layanan 110" class="layanan-img">
                     </div>
                     <h3>Layanan 110</h3>
                 </a>
@@ -304,7 +304,7 @@
             <div class="footer-content">
                 <div class="footer-section footer-about">
                     <div class="footer-logo">
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="Logo Polres Bangkalan">
+                        <img src="<?php echo e(asset('assets/images/logo.png')); ?>" alt="Logo Polres Bangkalan">
                     </div>
                     <p>Website Resmi Humas Polres Bangkalan<br>
                     Melayani dengan hati, Melindungi dengan peduli<br>
@@ -314,7 +314,7 @@
                 <div class="footer-section footer-subscribe">
                     <h4>Visi, sosialisasi dan pelaporan terkini<br>untuk anda oleh kami langsung</h4>
                     <form class="subscribe-form" action="#" method="POST">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <input type="email" name="email" placeholder="Email anda" required>
                         <button type="submit">Kirim</button>
                     </form>
@@ -387,7 +387,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} Polres Bangkalan. All rights reserved.</p>
+                <p>&copy; <?php echo e(date('Y')); ?> Polres Bangkalan. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -460,7 +460,7 @@
             /* ===============================
             IMAGE FALLBACK
             =============================== */
-            const defaultIcon = '{{ asset("assets/images/default-icon.png") }}';
+            const defaultIcon = '<?php echo e(asset("assets/images/default-icon.png")); ?>';
             const layananImages = document.querySelectorAll('.layanan-img');
 
             layananImages.forEach(img => {
@@ -509,4 +509,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\LENOVO\Documents\humas-polres-bangkalan\resources\views/welcome.blade.php ENDPATH**/ ?>

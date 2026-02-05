@@ -1,4 +1,4 @@
-{{-- resources/views/layouts/footer.blade.php --}}
+
 <footer style="
     background-color: #797474;
     color: #FFFFFF;
@@ -11,7 +11,7 @@
             <!-- Kolom Kiri -->
             <div class="col-lg-4 col-md-6">
                 <div class="d-flex align-items-center mb-4">
-                    <img src="{{ asset('assets/images/logo.jpeg') }}" alt="Logo Polres" height="60" class="me-3">
+                    <img src="<?php echo e(asset('assets/images/logo.jpeg')); ?>" alt="Logo Polres" height="60" class="me-3">
                     <div>
                         <h3 class="fw-bold mb-0 h4">Website Resmi Humas Polres Bangkalan</h3>
                     </div>
@@ -64,7 +64,8 @@
         </div>
 
         <div class="border-top border-secondary mt-5 pt-3 text-center">
-            <p class="mb-0 small">&copy; {{ date('Y') }} Divisi Humas Polres Bangkalan. All Rights Reserved.</p>
+            <p class="mb-0 small">&copy; <?php echo e(date('Y')); ?> Divisi Humas Polres Bangkalan. All Rights Reserved.</p>
         </div>
     </div>
 </footer>
+<?php /**PATH C:\Users\LENOVO\Documents\humas-polres-bangkalan\resources\views/layouts/footer.blade.php ENDPATH**/ ?>
