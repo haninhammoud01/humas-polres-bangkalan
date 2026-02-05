@@ -143,14 +143,14 @@
             <div class="layanan-grid-2x2">
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="<?php echo e(asset('assets/icons/skck.jpg')); ?>" alt="SKCK" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/skck.png')); ?>" alt="SKCK" class="layanan-img">
                     </div>
                     <h3>SKCK</h3>
                 </a>
 
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="<?php echo e(asset('assets/icons/samsat.jpg')); ?>" alt="SAMSAT" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/samsat.png')); ?>" alt="SAMSAT" class="layanan-img">
                     </div>
                     <h3>SAMSAT</h3>
                 </a>
@@ -164,7 +164,7 @@
 
                 <a href="#" class="layanan-card">
                     <div class="layanan-icon">
-                        <img src="<?php echo e(asset('assets/icons/Layanan110.jpg')); ?>" alt="Layanan 110" class="layanan-img">
+                        <img src="<?php echo e(asset('assets/icons/Layanan110.png')); ?>" alt="Layanan 110" class="layanan-img">
                     </div>
                     <h3>Layanan 110</h3>
                 </a>
@@ -393,7 +393,7 @@
     </footer>
 
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/6281234567890" class="whatsapp-float" target="_blank" title="Hubungi via WhatsApp">
+    <a href="https://wa.me/6287795080182" class="whatsapp-float" target="_blank" title="Hubungi via WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
         <span>Hubungi Kami</span>
     </a>
