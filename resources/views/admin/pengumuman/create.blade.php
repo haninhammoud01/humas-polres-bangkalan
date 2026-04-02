@@ -1,42 +1,40 @@
-@extends('layouts.app')
-
-@section('title', 'Buat Pengumuman')
-
+@extends('layouts.admin')
 @section('content')
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-info text-white">Buat Pengumuman</div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('admin.pengumuman.store') }}">
-                @csrf
-                <div class="mb-3">
-                    <label>Judul</label>
-                    <input type="text" name="judul" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label>Isi</label>
-                    <textarea name="isi_pengumuman" class="form-control" rows="3" required></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label>Prioritas</label>
-                        <select name="prioritas" class="form-select">
-                            <option value="Tinggi">Tinggi</option>
-                            <option value="Sedang" selected>Sedang</option>
-                            <option value="Rendah">Rendah</option>
-                        </select>
+<div class="container-fluid px-4">
+    <h2 class="fw-bold mb-4">Tambah Pengumuman</h2>
+    <form action="{{ route('admin.pengumuman.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <div class="mb-3">
+                        <label class="fw-bold">Judul *</label>
+                        <input type="text" name="judul" class="form-control" required>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label>Status</label>
-                        <select name="status" class="form-select">
-                            <option value="Aktif">Aktif (Tampil)</option>
-                            <option value="Nonaktif">Nonaktif</option>
-                        </select>
+                    <div class="mb-3">
+                        <label class="fw-bold">Konten *</label>
+                        <textarea name="konten" class="form-control" rows="10" required></textarea>
+                    </div>
+                    <div class="mb-0">
+                        <label class="fw-bold">Media</label>
+                        <input type="file" name="media" class="form-control">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success">Terbitkan</button>
-            </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm p-4 mb-4">
+                    <div class="mb-3">
+                        <label class="fw-bold">Tanggal</label>
+                        <input type="date" name="tanggal_pengumuman" class="form-control" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="form-check form-switch mb-4">
+                        <input class="form-check-input" type="checkbox" name="status" id="status" value="Aktif" checked>
+                        <label class="form-check-label fw-bold" for="status">Tampilkan di Web</label>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 py-3">Publish</button>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 @endsection

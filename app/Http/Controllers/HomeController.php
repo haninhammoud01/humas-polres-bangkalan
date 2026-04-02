@@ -4,39 +4,61 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Slider;
-use App\Models\Pengumuman;
 use App\Models\Layanan;
-use Illuminate\Http\Request;
+use App\Models\Album;
+use App\Models\Pengumuman;
 
 class HomeController extends Controller
 {
     /**
-     * Display the welcome/home page
+     * Display homepage with all dynamic content
      */
     public function index()
     {
-        // Ambil 3 berita terbaru yang sudah published
-        $beritas = Berita::where('status', 'Published')
-                         ->orderBy('tanggal_publish', 'desc')
-                         ->take(3)
-                         ->get();
-        
-        // Ambil slider yang aktif
-        $sliders = Slider::where('status', 'Aktif')
-                        ->orderBy('urutan', 'asc')
+        // 1. Ambil Berita Terbaru
+        $beritas = Berita::with(['kategori', 'penulis'])
+                        ->where('status', 'Published')
+                        ->where('tanggal_publish', '<=', now())
+                        ->orderBy('tanggal_publish', 'desc')
+                        ->take(3)
                         ->get();
-        
-        // Ambil pengumuman yang aktif
-        $pengumumans = Pengumuman::where('status', 'Aktif')
-                                 ->orderBy('tanggal', 'desc')
-                                 ->take(5)
-                                 ->get();
-        
-        // Ambil layanan
-        $layanans = Layanan::orderBy('urutan', 'asc')
+
+        // 2. Ambil Slider
+        $sliders = Slider::where('is_active', true)
+                        ->orderBy('urutan')
+                        ->get();
+
+        // 3. Ambil Layanan
+        $layanans = Layanan::where('is_active', true)
+                          ->orderBy('urutan')
                           ->take(4)
                           ->get();
-        
-        return view('welcome', compact('beritas', 'sliders', 'pengumumans', 'layanans'));
+
+        // 4. Ambil Album Foto
+        $albums = Album::with('photos')
+                      ->where('is_active', true)
+                      ->withCount('photos')
+                      ->orderBy('tanggal_dibuat', 'desc')
+                      ->take(6)
+                      ->get();
+
+        // 5. Ambil Pengumuman untuk Running Text (TANPA prioritas)
+        try {
+            $pengumumans = Pengumuman::where('status', 'Aktif') // Menggunakan status Aktif sesuai DB baru
+                                    ->orderBy('tanggal', 'desc')
+                                    ->take(5)
+                                    ->get();
+        } catch (\Exception $e) {
+            \Log::error('Pengumuman query error: ' . $e->getMessage());
+            $pengumumans = collect(); 
+        }
+
+        return view('welcome', compact(
+            'beritas', 
+            'sliders', 
+            'layanans', 
+            'albums', 
+            'pengumumans'
+        ));
     }
 }

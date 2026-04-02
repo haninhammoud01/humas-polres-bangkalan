@@ -1,51 +1,75 @@
-@extends('layouts.app')
-
-@section('title', 'Edit Pengumuman')
+@extends('layouts.admin') 
 
 @section('content')
-<div class="container mt-5">
-    <div class="card">
-        <div class="card-header bg-warning text-dark">
-            <h4 class="mb-0">Edit Pengumuman</h4>
-        </div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('admin.pengumuman.update', $pengumuman) }}">
-                @csrf
-                @method('PUT')
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Judul</label>
-                    <input type="text" name="judul" value="{{ $pengumuman->judul }}" class="form-control" required>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-danger">
+                    <h6 class="m-0 font-weight-bold text-white">Edit Pengumuman: {{ $pengumuman->judul }}</h6>
                 </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.pengumuman.update', $pengumuman->id_pengumuman) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Isi Pengumuman</label>
-                    <textarea name="isi_pengumuman" class="form-control" rows="5" required>{{ $pengumuman->isi_pengumuman }}</textarea>
-                </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                {{-- Judul --}}
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold">Judul Pengumuman</label>
+                                    <input type="text" name="judul" class="form-control" value="{{ old('judul', $pengumuman->judul) }}" required>
+                                </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Prioritas</label>
-                        <select name="prioritas" class="form-select" required>
-                            <option value="Tinggi" {{ $pengumuman->prioritas == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
-                            <option value="Sedang" {{ $pengumuman->prioritas == 'Sedang' ? 'selected' : '' }}>Sedang</option>
-                            <option value="Rendah" {{ $pengumuman->prioritas == 'Rendah' ? 'selected' : '' }}>Rendah</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Status</label>
-                        <select name="status" class="form-select" required>
-                            <option value="Aktif" {{ $pengumuman->status == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="Nonaktif" {{ $pengumuman->status == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-                        </select>
-                    </div>
-                </div>
+                                {{-- Isi Teks --}}
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold">Isi Pengumuman</label>
+                                    <textarea name="konten" class="form-control" rows="10" required>{{ old('konten', $pengumuman->isi_pengumuman) }}</textarea>
+                                </div>
+                            </div>
 
-                <div class="d-flex justify-content-end gap-2">
-                    <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-secondary">Batal</a>
-                    <button type="submit" class="btn btn-warning text-white">Simpan Perubahan</button>
+                            <div class="col-md-4">
+                                {{-- Media --}}
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold">Upload Media (Baru)</label>
+                                    <input type="file" name="media" class="form-control">
+                                    
+                                    @if($pengumuman->media)
+                                        <div class="mt-3 p-2 border rounded text-center bg-light">
+                                            <p class="small text-muted mb-1">Preview Media Saat Ini:</p>
+                                            <img src="{{ $pengumuman->media }}" class="img-fluid rounded" style="max-height: 200px;">
+                                        </div>
+                                    @endif
+                                </div>
+
+                                {{-- Tanggal --}}
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold">Tanggal</label>
+                                    <input type="date" name="tanggal_pengumuman" class="form-control" 
+                                           value="{{ date('Y-m-d', strtotime($pengumuman->tanggal)) }}">
+                                </div>
+
+                                {{-- Status --}}
+                                <div class="form-group mb-3">
+                                    <label class="font-weight-bold d-block">Status Aktif</label>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" name="is_active" class="custom-control-input" id="customSwitch1" {{ $pengumuman->status == 'Aktif' ? 'checked' : '' }}>
+                                        <label class="custom-control-label" for="customSwitch1">Aktifkan Pengumuman</label>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="btn-group w-100">
+                                    <button type="submit" class="btn btn-danger shadow">
+                                        <i class="fas fa-save"></i> Simpan Perubahan
+                                    </button>
+                                    <a href="{{ route('admin.pengumuman.index') }}" class="btn btn-secondary">Batal</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

@@ -5,114 +5,104 @@
 <?php $__env->startSection('content'); ?>
 <div class="container py-5">
     
-    <!-- Judul Halaman -->
+    
     <div class="text-center mb-5">
-        <h2 class="fw-bold text-primary">Profil Polres Bangkalan</h2>
-        <p class="text-muted">Mengenal lebih dekat Kepolisian Resor Bangkalan</p>
+        <?php if($profil->logo): ?>
+        <img src="<?php echo e($profil->logo ? asset('storage/'.$profil->logo) : ''); ?>" alt="Logo" style="max-height: 100px;" class="mb-3">
+        <?php endif; ?>
+        <h1 class="fw-bold mb-2"><?php echo e($profil->nama_instansi); ?></h1>
+        <p class="text-muted"><?php echo e($profil->alamat); ?></p>
     </div>
 
-    <div class="row g-5">
-        
-        <!-- KOLOM KIRI: Sambutan, Visi, Misi -->
-        <div class="col-lg-8">
-            
-            <!-- Sambutan Kapolres -->
-            <div class="card shadow-sm mb-4 border-0">
-                <div class="card-body p-4">
-                    <h4 class="fw-bold mb-3 border-bottom pb-2">
-                        <i class="fas fa-quote-left text-primary me-2"></i>Sambutan Kapolres
-                    </h4>
-                    <div class="text-justify" style="white-space: pre-wrap;">
-                        <?php echo $profil->sambutan_kapolres; ?>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Visi -->
-            <div class="card shadow-sm mb-4 border-0">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3 text-success">
+    
+    <?php if($profil->visi || $profil->misi): ?>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <div class="row">
+                <?php if($profil->visi): ?>
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h4 class="fw-bold mb-3 text-primary">
                         <i class="fas fa-eye me-2"></i>Visi
-                    </h5>
-                    <p class="lead fst-italic">"<?php echo e($profil->visi); ?>"</p>
+                    </h4>
+                    <p class="text-muted"><?php echo e($profil->visi); ?></p>
                 </div>
-            </div>
-
-            <!-- Misi -->
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-3 text-info">
+                <?php endif; ?>
+                
+                <?php if($profil->misi): ?>
+                <div class="col-md-6">
+                    <h4 class="fw-bold mb-3 text-success">
                         <i class="fas fa-bullseye me-2"></i>Misi
-                    </h5>
-                    <ul class="list-group list-group-flush">
-                        <!-- Ubah baris baru menjadi bullet point -->
-                        <?php $__currentLoopData = explode("\n", $profil->misi); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php if(trim($line)): ?>
-                        <li class="list-group-item bg-transparent border-0 ps-0">
-                            <?php echo e($line); ?>
-
-                        </li>
-                        <?php endif; ?>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </ul>
+                    </h4>
+                    <div class="text-muted" style="white-space: pre-line;"><?php echo e($profil->misi); ?></div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
-
-        <!-- KOLOM KANAN: Info Kontak -->
-        <div class="col-lg-4">
-            <div class="card shadow-sm border-0 bg-primary text-white sticky-top" style="top: 100px;">
-                <div class="card-body p-4">
-                    <h5 class="fw-bold mb-4">Hubungi Kami</h5>
-                    
-                    <div class="mb-3 d-flex">
-                        <i class="fas fa-map-marker-alt mt-1 me-3 fa-lg"></i>
-                        <div>
-                            <strong>Alamat</strong>
-                            <p class="mb-0 small"><?php echo e($profil->alamat); ?></p>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 d-flex">
-                        <i class="fas fa-phone-alt mt-1 me-3 fa-lg"></i>
-                        <div>
-                            <strong>Telepon</strong>
-                            <p class="mb-0 small"><?php echo e($profil->telepon); ?></p>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 d-flex">
-                        <i class="fas fa-envelope mt-1 me-3 fa-lg"></i>
-                        <div>
-                            <strong>Email</strong>
-                            <p class="mb-0 small"><?php echo e($profil->email); ?></p>
-                        </div>
-                    </div>
-
-                    <hr class="border-light">
-
-                    <h6 class="fw-bold mb-3">Media Sosial</h6>
-                    <div class="d-flex gap-3">
-                        <?php if($profil->facebook): ?>
-                        <a href="https://<?php echo e($profil->facebook); ?>" class="text-white text-decoration-none"><i class="fab fa-facebook fa-2x"></i></a>
-                        <?php endif; ?>
-                        <?php if($profil->twitter): ?>
-                        <a href="https://<?php echo e($profil->twitter); ?>" class="text-white text-decoration-none"><i class="fab fa-twitter fa-2x"></i></a>
-                        <?php endif; ?>
-                        <?php if($profil->instagram): ?>
-                        <a href="https://<?php echo e($profil->instagram); ?>" class="text-white text-decoration-none"><i class="fab fa-instagram fa-2x"></i></a>
-                        <?php endif; ?>
-                        <?php if($profil->youtube): ?>
-                        <a href="https://<?php echo e($profil->youtube); ?>" class="text-white text-decoration-none"><i class="fab fa-youtube fa-2x"></i></a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+    <?php endif; ?>
+
+    
+    <?php if($profil->sejarah): ?>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h4 class="fw-bold mb-3">
+                <i class="fas fa-history me-2 text-warning"></i>Sejarah
+            </h4>
+            <p class="text-muted" style="white-space: pre-line;"><?php echo e($profil->sejarah); ?></p>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    
+    <?php if($profil->hasStrukturOrganisasi()): ?>
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h4 class="fw-bold mb-4">
+                <i class="fas fa-sitemap me-2 text-info"></i>Struktur Organisasi
+            </h4>
+            
+            <?php if($profil->struktur_organisasi_text): ?>
+            <div class="mb-4 text-muted" style="white-space: pre-line;">
+                <?php echo e($profil->struktur_organisasi_text); ?>
+
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h4 class="fw-bold mb-4">
+                <i class="fas fa-phone me-2 text-danger"></i>Hubungi Kami
+            </h4>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                    <strong>Alamat:</strong><br>
+                    <span class="text-muted"><?php echo e($profil->alamat); ?></span>
+                </div>
+                <?php if($profil->telepon): ?>
+                <div class="col-md-4 mb-3">
+                    <i class="fas fa-phone text-danger me-2"></i>
+                    <strong>Telepon:</strong><br>
+                    <span class="text-muted"><?php echo e($profil->telepon); ?></span>
+                </div>
+                <?php endif; ?>
+                <?php if($profil->email): ?>
+                <div class="col-md-4 mb-3">
+                    <i class="fas fa-envelope text-danger me-2"></i>
+                    <strong>Email:</strong><br>
+                    <span class="text-muted"><?php echo e($profil->email); ?></span>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
 </div>
 <?php $__env->stopSection(); ?>
+
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\LENOVO\Documents\humas-polres-bangkalan\resources\views/public/profil.blade.php ENDPATH**/ ?>

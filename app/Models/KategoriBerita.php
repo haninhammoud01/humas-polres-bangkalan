@@ -16,11 +16,34 @@ class KategoriBerita extends Model
         'nama_kategori',
         'slug',
         'deskripsi',
+        'is_active',
     ];
 
-    // Relationships
-    public function berita()
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    /**
+     * Relasi ke Berita
+     */
+    public function beritas()
     {
         return $this->hasMany(Berita::class, 'id_kategori', 'id_kategori');
+    }
+
+    /**
+     * Get berita count
+     */
+    public function getBeritaCountAttribute()
+    {
+        return $this->beritas()->count();
+    }
+
+    /**
+     * Scope untuk kategori aktif
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }

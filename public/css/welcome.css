@@ -28,7 +28,7 @@ body {
 .hero-section {
     position: relative;
     min-height: 100vh;
-    background-image: url('../assets/images/hero-banner.png');
+    background-image: url('../assets/images/beranda.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -47,11 +47,22 @@ body {
 }
 
 /* Logo Kiri Atas */
-.logo-wrapper {
+.top-bar {
     position: absolute;
     top: 20px;
     left: 20px;
     z-index: 100;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.logo-wrapper {
+    position: relative;
+}
+
+.top-menu-wrapper {
+    position: relative;
 }
 
 .hero-logo {
@@ -63,10 +74,7 @@ body {
 
 /* Menu Kanan Atas */
 .top-menu-wrapper {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
+    position: relative;
 }
 
 .menu-dropdown {
@@ -76,16 +84,18 @@ body {
 .menu-btn {
     background: white;
     border: none;
-    padding: 12px 24px;
+    width: 200px;
+    height: 50px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 500;
     color: #333;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
@@ -714,4 +724,331 @@ body {
         padding: 10px 20px;
         font-size: 0.9rem;
     }
+}
+
+/* ============================================
+   DARK MODE STYLES - FIX untuk Welcome Page
+   ============================================ */
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-card: #252525;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --border-color: #404040;
+    --shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* Body Dark Mode */
+body.dark-mode {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Hero Section Dark Mode */
+body.dark-mode .hero-section {
+    background-color: #000;
+}
+
+body.dark-mode .hero-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .hero-content h1,
+body.dark-mode .hero-content p {
+    color: #ffffff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+}
+
+/* Menu Dropdown Dark Mode */
+body.dark-mode .menu-btn {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .menu-btn:hover {
+    background: var(--bg-card);
+}
+
+body.dark-mode .dropdown-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+body.dark-mode .dropdown-content a {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+body.dark-mode .dropdown-content a:hover {
+    background: var(--bg-card);
+    color: #dc3545;
+}
+
+/* Section Dark Mode */
+body.dark-mode .media-update-section {
+    background: var(--bg-primary);
+}
+
+body.dark-mode .layanan-section {
+    background: var(--bg-secondary);
+}
+
+body.dark-mode .social-media-section {
+    background: var(--bg-primary);
+}
+
+/* Section Titles Dark Mode */
+body.dark-mode .section-title {
+    color: var(--text-primary);
+}
+
+/* Media Update Cards Dark Mode - FIX: JANGAN HITAMKAN GAMBAR */
+body.dark-mode .media-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .media-card:hover {
+    box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
+    border-color: #dc3545;
+}
+
+/* PENTING: Gambar tetap normal, tidak dihitamkan */
+body.dark-mode .media-image {
+    background: #2d2d2d; /* Fallback jika gambar tidak ada */
+}
+
+body.dark-mode .media-image img {
+    /* JANGAN filter atau opacity - biarkan gambar normal */
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+body.dark-mode .media-info h3 {
+    color: var(--text-primary);
+}
+
+body.dark-mode .media-info p {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .read-more {
+    color: #ff6b6b; /* Warna merah lebih terang untuk dark mode */
+}
+
+body.dark-mode .read-more:hover {
+    color: #dc3545;
+}
+
+/* Placeholder Animation Dark Mode */
+body.dark-mode .media-placeholder {
+    background: linear-gradient(90deg, #2d2d2d 25%, #3d3d3d 50%, #2d2d2d 75%);
+    background-size: 200% 100%;
+    animation: loading-dark 1.5s infinite;
+}
+
+@keyframes loading-dark {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Layanan Cards Dark Mode */
+body.dark-mode .layanan-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+body.dark-mode .layanan-card:hover {
+    background: var(--bg-secondary);
+    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+    border-color: #dc3545;
+}
+
+body.dark-mode .layanan-card h3 {
+    color: var(--text-primary);
+}
+
+/* Layanan Images - Tetap Normal */
+body.dark-mode .layanan-icon img {
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* Social Media Section Dark Mode */
+body.dark-mode .social-tabs {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .social-tab {
+    color: var(--text-secondary);
+    border-right: 1px solid var(--border-color);
+}
+
+body.dark-mode .social-tab:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+body.dark-mode .social-tab.active {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+body.dark-mode .social-post {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .social-post:hover {
+    border-color: #dc3545;
+}
+
+body.dark-mode .social-post-image {
+    background: linear-gradient(90deg, #2d2d2d 25%, #3d3d3d 50%, #2d2d2d 75%);
+}
+
+/* Swiper Buttons Dark Mode */
+body.dark-mode .swiper-button-next,
+body.dark-mode .swiper-button-prev {
+    color: #dc3545;
+    background: var(--bg-card);
+}
+
+body.dark-mode .swiper-button-next:hover,
+body.dark-mode .swiper-button-prev:hover {
+    color: #ffffff;
+    background: #dc3545;
+}
+
+/* Footer Dark Mode */
+body.dark-mode .footer {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    border-top: 1px solid var(--border-color);
+}
+
+body.dark-mode .footer h4 {
+    color: var(--text-primary);
+}
+
+body.dark-mode .footer p,
+body.dark-mode .footer a {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .footer a:hover {
+    color: #dc3545;
+}
+
+body.dark-mode .footer-logo img {
+    /* Logo tetap normal */
+    filter: none !important;
+}
+
+body.dark-mode .subscribe-form input {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+body.dark-mode .subscribe-form input::placeholder {
+    color: var(--text-muted);
+}
+
+body.dark-mode .subscribe-form button {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+body.dark-mode .subscribe-form button:hover {
+    background: #c82333;
+}
+
+body.dark-mode .footer-bottom {
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+body.dark-mode .contact-info p {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .contact-info i {
+    color: #dc3545;
+}
+
+/* Buttons Dark Mode */
+body.dark-mode .btn-primary {
+    background: #dc3545;
+    color: #ffffff;
+    border: none;
+}
+
+body.dark-mode .btn-primary:hover {
+    background: #c82333;
+}
+
+/* WhatsApp Float Dark Mode */
+body.dark-mode .whatsapp-float {
+    background: #25d366;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+body.dark-mode .whatsapp-float:hover {
+    background: #128c7e;
+}
+
+/* Social Icons Dark Mode */
+body.dark-mode .social-icon {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+body.dark-mode .social-icon:hover {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+/* Map Dark Mode - Invert Colors */
+body.dark-mode .footer-map iframe {
+    filter: invert(90%) hue-rotate(180deg);
+    opacity: 0.9;
+}
+
+/* Transitions for Smooth Toggle */
+body,
+.hero-section,
+.menu-btn,
+.dropdown-content,
+.media-card,
+.layanan-card,
+.social-tab,
+.social-post,
+.footer,
+.btn-primary,
+.whatsapp-float,
+.social-icon {
+    transition: all 0.3s ease;
+}
+
+/* CRITICAL FIX: Prevent Images from Going Black */
+body.dark-mode img {
+    /* Reset any filter or opacity that might darken images */
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+/* Exception: Only apply filter to map iframe */
+body.dark-mode .footer-map iframe {
+    filter: invert(90%) hue-rotate(180deg) !important;
 }

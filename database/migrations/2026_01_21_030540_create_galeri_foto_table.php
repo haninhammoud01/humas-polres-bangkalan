@@ -10,21 +10,23 @@ return new class extends Migration
     {
         Schema::create('galeri_foto', function (Blueprint $table) {
             $table->id('id_foto');
-            $table->foreignId('id_album')->constrained('album_foto', 'id_album')->onDelete('cascade');
-            $table->foreignId('id_uploader')->constrained('users', 'id_user')->onDelete('cascade');
-            $table->string('judul_foto', 200)->nullable();
-            $table->string('path_foto');
-            $table->text('deskripsi')->nullable();
-            $table->integer('ukuran_file')->nullable();
+            $table->unsignedBigInteger('id_album');
+            $table->unsignedBigInteger('id_uploader');
+            $table->text('path_foto');
+            $table->bigInteger('ukuran_file')->nullable();
             $table->timestamp('tanggal_upload')->useCurrent();
             $table->timestamps();
             
-            $table->index('id_album');
+            // Foreign keys
+            $table->foreign('id_album')
+                ->references('id_album')
+                ->on('album_foto')  // ← HARUS sama dengan nama table di album migration
+                ->onDelete('cascade');
+                
+            $table->foreign('id_uploader')
+                ->references('id_user')
+                ->on('users')
+                ->onDelete('cascade');
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('galeri_foto');
     }
 };

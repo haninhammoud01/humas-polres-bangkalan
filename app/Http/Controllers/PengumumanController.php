@@ -4,78 +4,197 @@ namespace App\Http\Controllers;
 
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PengumumanController extends Controller
 {
-    // 1. READ : Tampilkan List Pengumuman
+    // ========================================
+    // ADMIN METHODS
+    // ========================================
+
+    /**
+     * Admin: List all pengumuman
+     */
     public function index()
     {
-        // Gunakan scope 'terbaru' dari Model kamu
-        $pengumuman = Pengumuman::terbaru()->get();
-        return view('admin.pengumuman.index', compact('pengumuman'));
+        $pengumumans = Pengumuman::with('pembuat')
+            ->orderBy('tanggal_pengumuman', 'desc')
+            ->paginate(10);
+
+        return view('admin.pengumuman.index', compact('pengumumans'));
     }
 
-    // 2. CREATE : Tampilkan Form Tambah
+    /**
+     * Admin: Show create form
+     */
     public function create()
     {
         return view('admin.pengumuman.create');
     }
 
-    // 3. STORE : Simpan Data Baru
+    /**
+     * Admin: Store new pengumuman
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'judul' => 'required|max:255',
-            'isi_pengumuman' => 'required',
-            'prioritas' => 'required',
-            'status' => 'required',
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi_pengumuman' => 'required|string',
+            'tanggal_pengumuman' => 'required|date',
+            'prioritas' => 'required|in:Low,Medium,High',
+            'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:20480', // 20MB
         ]);
 
-        // Isi ID Pembuat dan Tanggal Otomatis
-        $validated['id_pembuat'] = auth()->id();
-        $validated['tanggal'] = now(); 
+        $data = [
+            'judul' => $request->judul,
+            'isi_pengumuman' => $request->isi_pengumuman,
+            'tanggal_pengumuman' => $request->tanggal_pengumuman,
+            'prioritas' => $request->prioritas,
+            'id_pembuat' => Auth::id(),
+            'is_active' => true,
+        ];
 
-        Pengumuman::create($validated);
+        // Upload media (image or video)
+        if ($request->hasFile('media')) {
+            $path = $request->file('media')->store('pengumuman', 'public');
+            $data['media'] = $path;
+        }
 
-        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diterbitkan!');
+        Pengumuman::create($data);
+
+        return redirect()->route('admin.pengumuman.index')
+            ->with('success', 'Pengumuman berhasil ditambahkan!');
     }
 
-    // 4. SHOW : Detail Satu Pengumuman (Opsional)
-    public function show(Pengumuman $pengumuman)
-    {
-        return view('admin.pengumuman.show', compact('pengumuman'));
-    }
-
-    // 5. EDIT : Tampilkan Form Edit
+    /**
+     * Admin: Show edit form
+     */
     public function edit($id)
     {
         $pengumuman = Pengumuman::findOrFail($id);
         return view('admin.pengumuman.edit', compact('pengumuman'));
     }
 
-    // 6. UPDATE : Update Data
+    /**
+     * Admin: Update pengumuman
+     */
     public function update(Request $request, $id)
     {
         $pengumuman = Pengumuman::findOrFail($id);
 
-        $validated = $request->validate([
-            'judul' => 'required|max:255',
-            'isi_pengumuman' => 'required',
-            'prioritas' => 'required',
-            'status' => 'required',
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'isi_pengumuman' => 'required|string',
+            'tanggal_pengumuman' => 'required|date',
+            'prioritas' => 'required|in:Low,Medium,High',
+            'media' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi|max:20480',
         ]);
 
-        $pengumuman->update($validated);
+        $data = [
+            'judul' => $request->judul,
+            'isi_pengumuman' => $request->isi_pengumuman,
+            'tanggal_pengumuman' => $request->tanggal_pengumuman,
+            'prioritas' => $request->prioritas,
+        ];
 
-        return redirect()->route('admin.pengumuman.index')->with('success', 'Pengumuman berhasil diperbarui!');
+        // Upload new media
+        if ($request->hasFile('media')) {
+            // Delete old media if exists and not URL
+            if ($pengumuman->media && !str_starts_with($pengumuman->media, 'http')) {
+                Storage::disk('public')->delete($pengumuman->media);
+            }
+
+            $path = $request->file('media')->store('pengumuman', 'public');
+            $data['media'] = $path;
+        }
+
+        // Toggle active status if requested
+        if ($request->has('is_active')) {
+            $data['is_active'] = $request->boolean('is_active');
+        }
+
+        $pengumuman->update($data);
+
+        return redirect()->route('admin.pengumuman.index')
+            ->with('success', 'Pengumuman berhasil diupdate!');
     }
 
-    // 7. DESTROY : Hapus Data
+    /**
+     * Admin: Delete pengumuman
+     */
     public function destroy($id)
     {
         $pengumuman = Pengumuman::findOrFail($id);
+
+        // Delete media from storage if exists and not URL
+        if ($pengumuman->media && !str_starts_with($pengumuman->media, 'http')) {
+            Storage::disk('public')->delete($pengumuman->media);
+        }
+
         $pengumuman->delete();
 
-        return redirect()->route('admin.pengumuman.index')->with('delete', 'Pengumuman berhasil dihapus.');
+        return redirect()->route('admin.pengumuman.index')
+            ->with('success', 'Pengumuman berhasil dihapus!');
+    }
+
+    // ========================================
+    // PUBLIC METHODS
+    // ========================================
+
+    /**
+     * Public: List pengumuman
+     */
+    public function publicList()
+    {
+        $pengumumans = Pengumuman::active()
+            ->orderBy('prioritas', 'desc') // High first
+            ->orderBy('tanggal_pengumuman', 'desc')
+            ->paginate(12);
+
+        return view('public.pengumuman-list', compact('pengumumans'));
+    }
+
+    /**
+     * Public: Show single pengumuman
+     */
+    public function showPublic($id)
+    {
+        $pengumuman = Pengumuman::active()->findOrFail($id);
+
+        // Get related pengumuman (same prioritas)
+        $relatedPengumumans = Pengumuman::active()
+            ->where('prioritas', $pengumuman->prioritas)
+            ->where('id_pengumuman', '!=', $pengumuman->id_pengumuman)
+            ->orderBy('tanggal_pengumuman', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('public.pengumuman-detail', compact('pengumuman', 'relatedPengumumans'));
+    }
+
+    /**
+     * Get media type (image or video)
+     */
+    public function getMediaType($media)
+    {
+        if (!$media) {
+            return null;
+        }
+
+        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $videoExtensions = ['mp4', 'mov', 'avi', 'wmv', 'flv'];
+
+        $extension = strtolower(pathinfo($media, PATHINFO_EXTENSION));
+
+        if (in_array($extension, $imageExtensions)) {
+            return 'image';
+        }
+
+        if (in_array($extension, $videoExtensions)) {
+            return 'video';
+        }
+
+        return 'unknown';
     }
 }

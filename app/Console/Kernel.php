@@ -12,7 +12,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Auto-delete expired albums every day at 2:00 AM
+        $schedule->command('albums:delete-expired')
+                 ->daily()
+                 ->at('02:00')
+                 ->emailOutputOnFailure('admin@polresbangkalan.id');
+
+        // Alternative: Run every hour
+        // $schedule->command('albums:delete-expired')->hourly();
     }
 
     /**
